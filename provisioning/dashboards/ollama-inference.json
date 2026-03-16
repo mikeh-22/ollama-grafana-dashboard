@@ -1,11 +1,18 @@
 {
   "uid": "ollama-inference",
   "title": "Ollama Inference Monitor",
-  "tags": ["ollama", "gpu", "inference"],
+  "tags": [
+    "ollama",
+    "gpu",
+    "inference"
+  ],
   "schemaVersion": 39,
   "version": 2,
   "refresh": "15s",
-  "time": { "from": "now-1h", "to": "now" },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "browser",
   "fiscalYearStartMonth": 0,
@@ -16,18 +23,31 @@
       "type": "row",
       "title": "GPU Overview",
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 }
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      }
     },
     {
       "id": 2,
       "type": "stat",
       "title": "GPU 0 Utilization %",
-      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_gpu_utilization_percent{gpu=\"0\"}",
+          "expr": "ollama_gpu_utilization_percent{gpu_host=\"$gpu_host\",gpu=\"0\"}",
           "instant": true,
           "legendFormat": "GPU 0"
         }
@@ -40,17 +60,32 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 80 },
-              { "color": "red", "value": 95 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 95
+              }
             ]
           },
-          "color": { "mode": "thresholds" }
+          "color": {
+            "mode": "thresholds"
+          }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -62,12 +97,20 @@
       "id": 3,
       "type": "stat",
       "title": "GPU 1 Utilization %",
-      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_gpu_utilization_percent{gpu=\"1\"}",
+          "expr": "ollama_gpu_utilization_percent{gpu_host=\"$gpu_host\",gpu=\"1\"}",
           "instant": true,
           "legendFormat": "GPU 1"
         }
@@ -80,17 +123,32 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 80 },
-              { "color": "red", "value": 95 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 95
+              }
             ]
           },
-          "color": { "mode": "thresholds" }
+          "color": {
+            "mode": "thresholds"
+          }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -102,12 +160,20 @@
       "id": 4,
       "type": "stat",
       "title": "Total VRAM Used",
-      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(ollama_gpu_memory_used_bytes)",
+          "expr": "sum(ollama_gpu_memory_used_bytes{gpu_host=\"$gpu_host\"})",
           "instant": true,
           "legendFormat": "Total VRAM"
         }
@@ -118,17 +184,32 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 42949672960 },
-              { "color": "red", "value": 51539607552 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 42949672960
+              },
+              {
+                "color": "red",
+                "value": 51539607552
+              }
             ]
           },
-          "color": { "mode": "thresholds" }
+          "color": {
+            "mode": "thresholds"
+          }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -140,12 +221,20 @@
       "id": 5,
       "type": "stat",
       "title": "GPU 0 Junction Temp",
-      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_gpu_temperature_celsius{gpu=\"0\",sensor=\"junction\"}",
+          "expr": "ollama_gpu_temperature_celsius{gpu_host=\"$gpu_host\",gpu=\"0\",sensor=\"junction\"}",
           "instant": true,
           "legendFormat": "GPU 0 Junction"
         }
@@ -156,18 +245,36 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 75 },
-              { "color": "orange", "value": 85 },
-              { "color": "red", "value": 90 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 75
+              },
+              {
+                "color": "orange",
+                "value": 85
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
             ]
           },
-          "color": { "mode": "thresholds" }
+          "color": {
+            "mode": "thresholds"
+          }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -179,12 +286,20 @@
       "id": 6,
       "type": "stat",
       "title": "GPU 1 Junction Temp",
-      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_gpu_temperature_celsius{gpu=\"1\",sensor=\"junction\"}",
+          "expr": "ollama_gpu_temperature_celsius{gpu_host=\"$gpu_host\",gpu=\"1\",sensor=\"junction\"}",
           "instant": true,
           "legendFormat": "GPU 1 Junction"
         }
@@ -195,18 +310,36 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 75 },
-              { "color": "orange", "value": 85 },
-              { "color": "red", "value": 90 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 75
+              },
+              {
+                "color": "orange",
+                "value": 85
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
             ]
           },
-          "color": { "mode": "thresholds" }
+          "color": {
+            "mode": "thresholds"
+          }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -218,12 +351,20 @@
       "id": 7,
       "type": "stat",
       "title": "Ollama API Status",
-      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_api_up",
+          "expr": "ollama_api_up{gpu_host=\"$gpu_host\"}",
           "instant": true,
           "legendFormat": "API"
         }
@@ -232,21 +373,45 @@
         "defaults": {
           "unit": "short",
           "mappings": [
-            { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
           ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "green", "value": 1 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
             ]
           },
-          "color": { "mode": "thresholds" }
+          "color": {
+            "mode": "thresholds"
+          }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -259,23 +424,36 @@
       "type": "row",
       "title": "GPU Compute",
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 }
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      }
     },
     {
       "id": 9,
       "type": "timeseries",
       "title": "GPU Utilization %",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 6
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_gpu_utilization_percent{gpu=\"0\"}",
+          "expr": "ollama_gpu_utilization_percent{gpu_host=\"$gpu_host\",gpu=\"0\"}",
           "legendFormat": "GPU 0"
         },
         {
           "refId": "B",
-          "expr": "ollama_gpu_utilization_percent{gpu=\"1\"}",
+          "expr": "ollama_gpu_utilization_percent{gpu_host=\"$gpu_host\",gpu=\"1\"}",
           "legendFormat": "GPU 1"
         }
       ],
@@ -294,34 +472,57 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 80 },
-              { "color": "red", "value": 95 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 95
+              }
             ]
           }
         },
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "none" },
-        "legend": { "displayMode": "list", "placement": "bottom" }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
       }
     },
     {
       "id": 10,
       "type": "timeseries",
       "title": "GPU Power (W)",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_gpu_power_watts{gpu=\"0\"}",
+          "expr": "ollama_gpu_power_watts{gpu_host=\"$gpu_host\",gpu=\"0\"}",
           "legendFormat": "GPU 0"
         },
         {
           "refId": "B",
-          "expr": "ollama_gpu_power_watts{gpu=\"1\"}",
+          "expr": "ollama_gpu_power_watts{gpu_host=\"$gpu_host\",gpu=\"1\"}",
           "legendFormat": "GPU 1"
         }
       ],
@@ -340,8 +541,14 @@
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "none" },
-        "legend": { "displayMode": "list", "placement": "bottom" }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
       }
     },
     {
@@ -349,23 +556,36 @@
       "type": "row",
       "title": "GPU Memory",
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 }
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      }
     },
     {
       "id": 12,
       "type": "timeseries",
       "title": "VRAM Used per GPU",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 15
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_gpu_memory_used_bytes{gpu=\"0\"}",
+          "expr": "ollama_gpu_memory_used_bytes{gpu_host=\"$gpu_host\",gpu=\"0\"}",
           "legendFormat": "GPU 0"
         },
         {
           "refId": "B",
-          "expr": "ollama_gpu_memory_used_bytes{gpu=\"1\"}",
+          "expr": "ollama_gpu_memory_used_bytes{gpu_host=\"$gpu_host\",gpu=\"1\"}",
           "legendFormat": "GPU 1"
         }
       ],
@@ -384,25 +604,39 @@
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "none" },
-        "legend": { "displayMode": "list", "placement": "bottom" }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
       }
     },
     {
       "id": 13,
       "type": "timeseries",
       "title": "VRAM % Used per GPU",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 15
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_gpu_memory_used_bytes{gpu=\"0\"} / ollama_gpu_memory_total_bytes{gpu=\"0\"} * 100",
+          "expr": "ollama_gpu_memory_used_bytes{gpu_host=\"$gpu_host\",gpu=\"0\"} / ollama_gpu_memory_total_bytes{gpu_host=\"$gpu_host\",gpu=\"0\"} * 100",
           "legendFormat": "GPU 0"
         },
         {
           "refId": "B",
-          "expr": "ollama_gpu_memory_used_bytes{gpu=\"1\"} / ollama_gpu_memory_total_bytes{gpu=\"1\"} * 100",
+          "expr": "ollama_gpu_memory_used_bytes{gpu_host=\"$gpu_host\",gpu=\"1\"} / ollama_gpu_memory_total_bytes{gpu_host=\"$gpu_host\",gpu=\"1\"} * 100",
           "legendFormat": "GPU 1"
         }
       ],
@@ -421,17 +655,32 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 85 },
-              { "color": "red", "value": 95 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 85
+              },
+              {
+                "color": "red",
+                "value": 95
+              }
             ]
           }
         },
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "none" },
-        "legend": { "displayMode": "list", "placement": "bottom" }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
       }
     },
     {
@@ -439,43 +688,56 @@
       "type": "row",
       "title": "GPU Temperatures",
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 23 }
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      }
     },
     {
       "id": 15,
       "type": "timeseries",
       "title": "GPU Temperatures (All Sensors)",
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 24 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_gpu_temperature_celsius{gpu=\"0\",sensor=\"edge\"}",
+          "expr": "ollama_gpu_temperature_celsius{gpu_host=\"$gpu_host\",gpu=\"0\",sensor=\"edge\"}",
           "legendFormat": "GPU 0 Edge"
         },
         {
           "refId": "B",
-          "expr": "ollama_gpu_temperature_celsius{gpu=\"0\",sensor=\"junction\"}",
+          "expr": "ollama_gpu_temperature_celsius{gpu_host=\"$gpu_host\",gpu=\"0\",sensor=\"junction\"}",
           "legendFormat": "GPU 0 Junction"
         },
         {
           "refId": "C",
-          "expr": "ollama_gpu_temperature_celsius{gpu=\"0\",sensor=\"memory\"}",
+          "expr": "ollama_gpu_temperature_celsius{gpu_host=\"$gpu_host\",gpu=\"0\",sensor=\"memory\"}",
           "legendFormat": "GPU 0 Memory"
         },
         {
           "refId": "D",
-          "expr": "ollama_gpu_temperature_celsius{gpu=\"1\",sensor=\"edge\"}",
+          "expr": "ollama_gpu_temperature_celsius{gpu_host=\"$gpu_host\",gpu=\"1\",sensor=\"edge\"}",
           "legendFormat": "GPU 1 Edge"
         },
         {
           "refId": "E",
-          "expr": "ollama_gpu_temperature_celsius{gpu=\"1\",sensor=\"junction\"}",
+          "expr": "ollama_gpu_temperature_celsius{gpu_host=\"$gpu_host\",gpu=\"1\",sensor=\"junction\"}",
           "legendFormat": "GPU 1 Junction"
         },
         {
           "refId": "F",
-          "expr": "ollama_gpu_temperature_celsius{gpu=\"1\",sensor=\"memory\"}",
+          "expr": "ollama_gpu_temperature_celsius{gpu_host=\"$gpu_host\",gpu=\"1\",sensor=\"memory\"}",
           "legendFormat": "GPU 1 Memory"
         }
       ],
@@ -492,18 +754,36 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 75 },
-              { "color": "orange", "value": 85 },
-              { "color": "red", "value": 90 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 75
+              },
+              {
+                "color": "orange",
+                "value": 85
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
             ]
           }
         },
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "none" },
-        "legend": { "displayMode": "list", "placement": "bottom" }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
       }
     },
     {
@@ -511,18 +791,31 @@
       "type": "row",
       "title": "Ollama Model Info",
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 32 }
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      }
     },
     {
       "id": 17,
       "type": "stat",
       "title": "Loaded Model",
-      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 33 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 33
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_model_loaded == 1",
+          "expr": "ollama_model_loaded{gpu_host=\"$gpu_host\"} == 1",
           "instant": true,
           "legendFormat": "{{model}}"
         }
@@ -530,16 +823,28 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "color": { "mode": "fixed", "fixedColor": "blue" },
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "blue", "value": null }]
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
           }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "name",
         "colorMode": "background",
@@ -551,12 +856,20 @@
       "id": 18,
       "type": "stat",
       "title": "Context Length",
-      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 33 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 33
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_model_context_length",
+          "expr": "ollama_model_context_length{gpu_host=\"$gpu_host\"}",
           "instant": true,
           "legendFormat": "{{model}}"
         }
@@ -565,16 +878,28 @@
         "defaults": {
           "unit": "short",
           "decimals": 0,
-          "color": { "mode": "fixed", "fixedColor": "purple" },
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "purple"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "purple", "value": null }]
+            "steps": [
+              {
+                "color": "purple",
+                "value": null
+              }
+            ]
           }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -586,12 +911,20 @@
       "id": 19,
       "type": "stat",
       "title": "Model VRAM",
-      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 33 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 33
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_model_vram_bytes",
+          "expr": "ollama_model_vram_bytes{gpu_host=\"$gpu_host\"}",
           "instant": true,
           "legendFormat": "{{model}}"
         }
@@ -599,16 +932,28 @@
       "fieldConfig": {
         "defaults": {
           "unit": "bytes",
-          "color": { "mode": "fixed", "fixedColor": "orange" },
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "orange"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "orange", "value": null }]
+            "steps": [
+              {
+                "color": "orange",
+                "value": null
+              }
+            ]
           }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -620,12 +965,20 @@
       "id": 20,
       "type": "stat",
       "title": "API Response Latency",
-      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 33 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 33
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_api_response_seconds * 1000",
+          "expr": "ollama_api_response_seconds{gpu_host=\"$gpu_host\"} * 1000",
           "instant": true,
           "legendFormat": "Latency"
         }
@@ -636,17 +989,32 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 500 },
-              { "color": "red", "value": 2000 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 500
+              },
+              {
+                "color": "red",
+                "value": 2000
+              }
             ]
           },
-          "color": { "mode": "thresholds" }
+          "color": {
+            "mode": "thresholds"
+          }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -659,24 +1027,37 @@
       "type": "row",
       "title": "Hung Job Detector",
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 37 }
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 37
+      }
     },
     {
       "id": 22,
       "type": "timeseries",
       "title": "GPU High-Util Duration (Hung Job Detector)",
       "description": "Hung job suspected if GPU stays above 80% utilisation for >25 minutes (1500s). Alert fires at 1500s.",
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 38 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 38
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_gpu_high_util_duration_seconds{gpu=\"0\"}",
+          "expr": "ollama_gpu_high_util_duration_seconds{gpu_host=\"$gpu_host\",gpu=\"0\"}",
           "legendFormat": "GPU 0"
         },
         {
           "refId": "B",
-          "expr": "ollama_gpu_high_util_duration_seconds{gpu=\"1\"}",
+          "expr": "ollama_gpu_high_util_duration_seconds{gpu_host=\"$gpu_host\",gpu=\"1\"}",
           "legendFormat": "GPU 1"
         }
       ],
@@ -694,18 +1075,35 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "orange", "value": 900 },
-              { "color": "red", "value": 1500 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 900
+              },
+              {
+                "color": "red",
+                "value": 1500
+              }
             ]
           }
         },
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "none" },
-        "legend": { "displayMode": "list", "placement": "bottom" },
-        "thresholdsStyle": { "mode": "line+area" }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "thresholdsStyle": {
+          "mode": "line+area"
+        }
       }
     },
     {
@@ -713,24 +1111,37 @@
       "type": "row",
       "title": "Inference Job Detail",
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 46 }
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 46
+      }
     },
     {
       "id": 24,
       "type": "timeseries",
       "title": "Active Job Elapsed Time",
       "description": "Time GPU has been continuously active. Rises while a job runs, drops to 0 when idle.",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 47 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 47
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_active_job_elapsed_seconds{gpu=\"0\"}",
+          "expr": "ollama_active_job_elapsed_seconds{gpu_host=\"$gpu_host\",gpu=\"0\"}",
           "legendFormat": "GPU 0"
         },
         {
           "refId": "B",
-          "expr": "ollama_active_job_elapsed_seconds{gpu=\"1\"}",
+          "expr": "ollama_active_job_elapsed_seconds{gpu_host=\"$gpu_host\",gpu=\"1\"}",
           "legendFormat": "GPU 1"
         }
       ],
@@ -748,35 +1159,60 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "orange", "value": 900 },
-              { "color": "red", "value": 1500 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 900
+              },
+              {
+                "color": "red",
+                "value": 1500
+              }
             ]
           }
         },
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "none" },
-        "legend": { "displayMode": "list", "placement": "bottom" },
-        "thresholdsStyle": { "mode": "line+area" }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "thresholdsStyle": {
+          "mode": "line+area"
+        }
       }
     },
     {
       "id": 25,
       "type": "timeseries",
       "title": "Request Rate (5m avg)",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 47 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 47
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(ollama_requests_total[5m]))",
+          "expr": "sum(rate(ollama_requests_total{gpu_host=\"$gpu_host\"}[5m]))",
           "legendFormat": "All endpoints"
         },
         {
           "refId": "B",
-          "expr": "rate(ollama_requests_total[5m])",
+          "expr": "rate(ollama_requests_total{gpu_host=\"$gpu_host\"}[5m])",
           "legendFormat": "{{method}} {{endpoint}}"
         }
       ],
@@ -795,20 +1231,34 @@
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "none" },
-        "legend": { "displayMode": "list", "placement": "bottom" }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
       }
     },
     {
       "id": 26,
       "type": "stat",
       "title": "Last Request Duration",
-      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 55 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 55
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_last_request_duration_seconds",
+          "expr": "ollama_last_request_duration_seconds{gpu_host=\"$gpu_host\"}",
           "instant": true,
           "legendFormat": "Duration"
         }
@@ -819,17 +1269,32 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 60 },
-              { "color": "red", "value": 180 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 60
+              },
+              {
+                "color": "red",
+                "value": 180
+              }
             ]
           },
-          "color": { "mode": "thresholds" }
+          "color": {
+            "mode": "thresholds"
+          }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -841,12 +1306,20 @@
       "id": 27,
       "type": "stat",
       "title": "Total Requests",
-      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 55 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 55
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(ollama_requests_total)",
+          "expr": "sum(ollama_requests_total{gpu_host=\"$gpu_host\"})",
           "instant": true,
           "legendFormat": "Total"
         }
@@ -855,16 +1328,28 @@
         "defaults": {
           "unit": "short",
           "decimals": 0,
-          "color": { "mode": "fixed", "fixedColor": "blue" },
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "blue", "value": null }]
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
           }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -876,12 +1361,20 @@
       "id": 28,
       "type": "stat",
       "title": "Last Request Details",
-      "gridPos": { "h": 4, "w": 12, "x": 12, "y": 55 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 55
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "ollama_last_request_info == 1",
+          "expr": "ollama_last_request_info{gpu_host=\"$gpu_host\"} == 1",
           "instant": true,
           "legendFormat": "{{method}} {{endpoint}} ({{status}}) from {{client}}"
         }
@@ -889,16 +1382,28 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "color": { "mode": "fixed", "fixedColor": "purple" },
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "purple"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "purple", "value": null }]
+            "steps": [
+              {
+                "color": "purple",
+                "value": null
+              }
+            ]
           }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
         "orientation": "auto",
         "textMode": "name",
         "colorMode": "background",
@@ -910,22 +1415,30 @@
       "id": 29,
       "type": "timeseries",
       "title": "Request Duration Percentiles",
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 59 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 59
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum(rate(ollama_request_duration_seconds_bucket[10m])) by (le))",
+          "expr": "histogram_quantile(0.50, sum(rate(ollama_request_duration_seconds_bucket{gpu_host=\"$gpu_host\"}[10m])) by (le))",
           "legendFormat": "p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.95, sum(rate(ollama_request_duration_seconds_bucket[10m])) by (le))",
+          "expr": "histogram_quantile(0.95, sum(rate(ollama_request_duration_seconds_bucket{gpu_host=\"$gpu_host\"}[10m])) by (le))",
           "legendFormat": "p95"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.99, sum(rate(ollama_request_duration_seconds_bucket[10m])) by (le))",
+          "expr": "histogram_quantile(0.99, sum(rate(ollama_request_duration_seconds_bucket{gpu_host=\"$gpu_host\"}[10m])) by (le))",
           "legendFormat": "p99"
         }
       ],
@@ -944,9 +1457,41 @@
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "none" },
-        "legend": { "displayMode": "list", "placement": "bottom" }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
       }
     }
-  ]
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "definition": "label_values(ollama_gpu_utilization_percent, gpu_host)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Host",
+        "multi": false,
+        "name": "gpu_host",
+        "options": [],
+        "query": {
+          "query": "label_values(ollama_gpu_utilization_percent, gpu_host)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  }
 }
