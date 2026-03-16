@@ -27,6 +27,7 @@ Six panel rows covering the full inference stack:
 | **GPU Temperature** | All sensors over time, threshold at 85°C |
 | **Ollama Model Info** | Loaded model, context length, VRAM footprint, API latency |
 | **Inference Job Detail** | Active job elapsed time, last request duration/details, request rate, duration percentiles (p50/p95/p99) |
+| **Context Window** | Fill ratio gauge, prompt token count, KV cache reuse tokens, fill ratio over time — requires `OLLAMA_DEBUG=1` on the Ollama container |
 
 ## Alert rules
 
@@ -38,6 +39,7 @@ Six panel rows covering the full inference stack:
 | `GPUMemoryNearCapacity` | VRAM >95% for 5m | warning |
 | `OllamaContainerHighCPU` | Container CPU >300% for 10m | info |
 | `OllamaContextWindowLarge` | Configured context length >32K tokens | warning |
+| `OllamaContextWindowHighFill` | Fill ratio >85% at last request (requires `OLLAMA_DEBUG=1`) | warning |
 
 ## Usage
 

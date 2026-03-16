@@ -158,6 +158,44 @@ groups:
         labels:
           severity: warning
 
+      - uid: ollama-context-window-high-fill
+        title: OllamaContextWindowHighFill
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: max(ollama_last_request_context_fill_ratio)
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    params: [0.85]
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+        noDataState: NoData
+        execErrState: Error
+        for: 0m
+        annotations:
+          summary: "Context window fill >85% — prompt is consuming most of the available context"
+        labels:
+          severity: warning
+
       - uid: ollama-context-window-large
         title: OllamaContextWindowLarge
         condition: C
