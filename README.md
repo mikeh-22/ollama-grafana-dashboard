@@ -37,6 +37,7 @@ Six panel rows covering the full inference stack:
 | `GPUOverheat` | Junction temp >87°C for 3m | critical |
 | `GPUMemoryNearCapacity` | VRAM >95% for 5m | warning |
 | `OllamaContainerHighCPU` | Container CPU >300% for 10m | info |
+| `OllamaContextWindowLarge` | Configured context length >32K tokens | warning |
 
 ## Usage
 
