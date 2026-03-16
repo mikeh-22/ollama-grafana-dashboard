@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+
+  # -------------------------------------------------------------------------
+  # Static validation — JSON and YAML well-formedness
+  # -------------------------------------------------------------------------
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate dashboard JSON
+        run: |
+          jq empty provisioning/dashboards/ollama-inference.json
+          echo "Dashboard JSON: valid"
+
+      - name: Check dashboard UID and title
+        run: |
+          UID=$(jq -r '.uid' provisioning/dashboards/ollama-inference.json)
+          TITLE=$(jq -r '.title' provisioning/dashboards/ollama-inference.json)
+          PANELS=$(jq '.panels | length' provisioning/dashboards/ollama-inference.json)
+          echo "uid=$UID  title=$TITLE  panels=$PANELS"
+          [ "$UID" = "ollama-inference" ] || (echo "Unexpected uid: $UID" && exit 1)
+          [ "$PANELS" -gt 0 ]            || (echo "No panels found" && exit 1)
+
+      - name: Lint YAML provisioning files
+        run: |
+          pip install -q yamllint
+          yamllint -c .yamllint.yml \
+            provisioning/dashboards/dashboard.yml \
+            provisioning/datasources/prometheus.yml \
+            provisioning/alerting/rules.yml
+
+  # -------------------------------------------------------------------------
+  # Integration test — real Grafana validates the provisioning end-to-end
+  # -------------------------------------------------------------------------
+  integration:
+    name: Grafana Integration Test
+    runs-on: ubuntu-latest
+    # Run after static validation so we don't waste a container on broken JSON
+    needs: validate
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start Grafana
+        run: |
+          docker run -d --name grafana \
+            -e GF_SECURITY_ADMIN_PASSWORD=admin \
+            -e GF_USERS_ALLOW_SIGN_UP=false \
+            -e GF_UNIFIED_ALERTING_ENABLED=true \
+            -e GF_ALERTING_ENABLED=false \
+            -v "$PWD/provisioning:/etc/grafana/provisioning:ro" \
+            -p 3000:3000 \
+            grafana/grafana:11.5.2
+
+      - name: Wait for Grafana to be healthy
+        run: |
+          echo "Waiting for Grafana..."
+          for i in $(seq 1 30); do
+            if curl -sf http://admin:admin@localhost:3000/api/health > /dev/null; then
+              echo "Grafana is healthy (attempt $i)"
+              break
+            fi
+            [ "$i" -eq 30 ] && echo "Grafana did not become healthy" && exit 1
+            sleep 3
+          done
+
+      - name: Verify dashboard provisioned
+        run: |
+          RESP=$(curl -sf http://admin:admin@localhost:3000/api/dashboards/uid/ollama-inference)
+          TITLE=$(echo "$RESP" | jq -r '.dashboard.title')
+          PANELS=$(echo "$RESP" | jq '.dashboard.panels | length')
+          echo "title=$TITLE  panels=$PANELS"
+          [ "$TITLE" = "Ollama Inference Monitor" ] || (echo "Wrong title: $TITLE" && exit 1)
+          [ "$PANELS" -gt 0 ]                       || (echo "No panels loaded" && exit 1)
+
+      - name: Verify alert rules provisioned
+        run: |
+          RESP=$(curl -sf http://admin:admin@localhost:3000/api/ruler/grafana/api/v1/rules)
+          echo "Alert rule folders: $(echo "$RESP" | jq 'keys')"
+          RULE_COUNT=$(echo "$RESP" | jq '.Ollama[0].rules | length')
+          echo "Rules in Ollama folder: $RULE_COUNT"
+          [ "$RULE_COUNT" -gt 0 ] || (echo "No alert rules found in Ollama folder" && exit 1)
+
+      - name: Verify datasource provisioned
+        run: |
+          RESP=$(curl -sf http://admin:admin@localhost:3000/api/datasources/name/Prometheus)
+          UID=$(echo "$RESP" | jq -r '.uid')
+          TYPE=$(echo "$RESP" | jq -r '.type')
+          echo "Datasource uid=$UID type=$TYPE"
+          [ "$UID" = "prometheus" ] || (echo "Wrong datasource uid: $UID" && exit 1)
+          [ "$TYPE" = "prometheus" ] || (echo "Wrong datasource type: $TYPE" && exit 1)
+
+      - name: Show Grafana logs on failure
+        if: failure()
+        run: docker logs grafana

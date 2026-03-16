@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Stamp version into dashboard JSON
+        run: |
+          jq --arg ver "${{ steps.version.outputs.version }}" \
+            '.version = ($ver | ltrimstr("v") | split(".") | .[0] | tonumber)' \
+            provisioning/dashboards/ollama-inference.json \
+            > ollama-inference-${{ steps.version.outputs.version }}.json
+          echo "Release artifact: ollama-inference-${{ steps.version.outputs.version }}.json"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ollama-inference-${{ steps.version.outputs.version }}.json
+          generate_release_notes: true
+          body: |
+            ## Ollama Inference Monitor — ${{ steps.version.outputs.version }}
+
+            ### Import options
+
+            **Option A — Direct Grafana import (no provisioning)**
+            1. Download `ollama-inference-${{ steps.version.outputs.version }}.json` below
+            2. In Grafana: **Dashboards → Import → Upload JSON file**
+            3. Select your Prometheus datasource (uid must be `prometheus`)
+
+            **Option B — Provisioning (recommended)**
+            Clone or copy the `provisioning/` directory and mount it into Grafana:
+            ```yaml
+            volumes:
+              - ./provisioning:/etc/grafana/provisioning:ro
+            ```
+
+            See the [README](https://github.com/${{ github.repository }}#readme) for full setup instructions.
