@@ -2,6 +2,7 @@
 
 Grafana provisioning files for monitoring [Ollama](https://ollama.com) inference servers. Designed to work with [ollama-exporter](https://github.com/mikeh-22/ollama-exporter), which supports both **AMD ROCm** and **NVIDIA CUDA** GPU hosts.
 
+<img width="1312" height="1051" alt="Ollama Monitor Dashboard" src="https://github.com/user-attachments/assets/e058e013-e62c-4c7b-ac23-b39b84e83279" />
 
 
 ## What's included
