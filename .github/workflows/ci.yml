@@ -95,11 +95,11 @@ jobs:
       - name: Verify datasource provisioned
         run: |
           RESP=$(curl -sf http://admin:admin@localhost:3000/api/datasources/name/Prometheus)
-          UID=$(echo "$RESP" | jq -r '.uid')
-          TYPE=$(echo "$RESP" | jq -r '.type')
-          echo "Datasource uid=$UID type=$TYPE"
-          [ "$UID" = "prometheus" ] || (echo "Wrong datasource uid: $UID" && exit 1)
-          [ "$TYPE" = "prometheus" ] || (echo "Wrong datasource type: $TYPE" && exit 1)
+          DS_UID=$(echo "$RESP" | jq -r '.uid')
+          DS_TYPE=$(echo "$RESP" | jq -r '.type')
+          echo "Datasource uid=$DS_UID type=$DS_TYPE"
+          [ "$DS_UID" = "prometheus" ]   || (echo "Wrong datasource uid: $DS_UID" && exit 1)
+          [ "$DS_TYPE" = "prometheus" ]  || (echo "Wrong datasource type: $DS_TYPE" && exit 1)
 
       - name: Show Grafana logs on failure
         if: failure()
