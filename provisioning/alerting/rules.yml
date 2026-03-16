@@ -1,0 +1,197 @@
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: ollama-inference
+    folder: Ollama
+    interval: 1m
+    rules:
+      - uid: ollama-api-down
+        title: OllamaAPIDown
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: ollama_api_up
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    params: [1]
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+        noDataState: Alerting
+        execErrState: Error
+        for: 2m
+        annotations:
+          summary: Ollama API is unreachable — /api/ps not responding
+        labels:
+          severity: critical
+
+      - uid: inference-job-hung
+        title: InferenceJobHung
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: max(ollama_gpu_high_util_duration_seconds)
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    params: [1500]
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+        noDataState: NoData
+        execErrState: Error
+        for: 5m
+        annotations:
+          summary: GPU has been at utilisation for minutes — possible hung inference job
+        labels:
+          severity: warning
+
+      - uid: gpu-overheat
+        title: GPUOverheat
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: 'max(ollama_gpu_temperature_celsius{sensor=junction})'
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    params: [87]
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+        noDataState: NoData
+        execErrState: Error
+        for: 3m
+        annotations:
+          summary: GPU junction temperature exceeded 87 degrees C — thermal throttling or hardware risk
+        labels:
+          severity: critical
+
+      - uid: gpu-memory-near-capacity
+        title: GPUMemoryNearCapacity
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: max(ollama_gpu_memory_used_bytes / ollama_gpu_memory_total_bytes)
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    params: [0.95]
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+        noDataState: NoData
+        execErrState: Error
+        for: 5m
+        annotations:
+          summary: GPU VRAM usage above 95% — risk of OOM or model load failure
+        labels:
+          severity: warning
+
+      - uid: ollama-container-high-cpu
+        title: OllamaContainerHighCPU
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: 'rate(container_cpu_usage_seconds_total{name=ollama}[5m]) * 100'
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    params: [300]
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+        noDataState: NoData
+        execErrState: Error
+        for: 10m
+        annotations:
+          summary: Ollama container CPU usage for min — expected during inference, but may indicate a stuck process if sustained
+        labels:
+          severity: info
