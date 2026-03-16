@@ -25,12 +25,12 @@ jobs:
 
       - name: Check dashboard UID and title
         run: |
-          UID=$(jq -r '.uid' provisioning/dashboards/ollama-inference.json)
+          DASH_UID=$(jq -r '.uid' provisioning/dashboards/ollama-inference.json)
           TITLE=$(jq -r '.title' provisioning/dashboards/ollama-inference.json)
           PANELS=$(jq '.panels | length' provisioning/dashboards/ollama-inference.json)
-          echo "uid=$UID  title=$TITLE  panels=$PANELS"
-          [ "$UID" = "ollama-inference" ] || (echo "Unexpected uid: $UID" && exit 1)
-          [ "$PANELS" -gt 0 ]            || (echo "No panels found" && exit 1)
+          echo "uid=$DASH_UID  title=$TITLE  panels=$PANELS"
+          [ "$DASH_UID" = "ollama-inference" ] || (echo "Unexpected uid: $DASH_UID" && exit 1)
+          [ "$PANELS" -gt 0 ]                  || (echo "No panels found" && exit 1)
 
       - name: Lint YAML provisioning files
         run: |
